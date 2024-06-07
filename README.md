@@ -1,0 +1,8 @@
+# Fency Adapted Benchmarks
+
+Weak Memory Concurrency programs (for TSO) adapted from *Fency*, which checks robustness between x86 and Arm. Fency was introduced in "[Robustness between Weak Memory Models](https://www.st.ewi.tudelft.nl/sschakraborty/fmcad21.pdf)" by *Soham Chakraborty* (see also its [artifact](https://www.st.ewi.tudelft.nl/sschakraborty/mkrobustness.html)). The programs originated from *Rocker* in "[Robustness against Release/Acquire Semantics](https://www.cs.tau.ac.il/~orilahav/papers/pldi19.pdf)" by *Ori Lahav* and *Roy Margalit*, but were written in their "Toy Programming Language" (`.tpl` -- see also their [artifact](https://dl.acm.org/do/10.1145/3325978/full/)).
+
+## Adaptations
+
+* *Rocker* uses a model checker. To facilitate their experimental results, their tpl language need only support "hard coded" threads. Consequently, for instance, `spinlock.tpl` has *two* threads, while `spinlock4.tpl` has *four*. Otherwise, those program threads are the same. Hence, **our adaptation eliminates the fixed thread counts.**
+* *Fency* uses static analysis to scale to a greater number of threads, but that means its experimental programs *don't need to run*. Consequently, the Fency benchmarks have artificially increased thread counts, even when running them causes logic errors (e.g., `dekker.cc` implements [Dekker's algorithm](https://en.wikipedia.org/wiki/Dekker%27s_algorithm) which only works for *two* threads -- the algorithm doesn't work for more threads). **Our adaptated benchmarks do always run, but some don't scale beyond a fixed number of threads.**
