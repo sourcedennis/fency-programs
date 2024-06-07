@@ -6,10 +6,12 @@
 
 using namespace std;
 
+
 // maximum number of threads
 #define N 1000
 // number of random actions per thread
 #define NUM_ITER 30
+
 
 long int num_threads;
 
@@ -147,5 +149,5 @@ int main(int argc, char **argv) {
     pthread_join(A[i], nullptr);
   }
 
-	return 0;
+  return 0;
 }

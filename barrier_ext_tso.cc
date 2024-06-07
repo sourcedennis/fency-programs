@@ -43,8 +43,7 @@ void *threadA( void *arg ) {
   return NULL;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   int n = atoi(argv[1]);
   n_total = n;
   pthread_t A[ n ];

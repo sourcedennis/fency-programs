@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 atomic<int> x, y;
 
 void *thread( void *arg ) {

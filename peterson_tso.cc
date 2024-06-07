@@ -32,7 +32,7 @@ void* threadA(void *arg) {
 
   x1.store( false, memory_order_relaxed );
 
-	return NULL;
+  return NULL;
 }
 
 void* threadB(void *arg) {
@@ -56,7 +56,7 @@ void* threadB(void *arg) {
 
   x2.store( false, memory_order_relaxed );
 
-	return NULL;
+  return NULL;
 }
 
 int main(int argc, char **argv) {

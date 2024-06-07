@@ -12,6 +12,7 @@
 
 using namespace std;
 
+
 #define NUMREADERS 1
 #define N 1000
 
@@ -40,7 +41,7 @@ void* threadA(void *arg) {
   for( int l = 0; l < num_threads - 1; l++ ) {
     level[ i ].store( l, memory_order_relaxed );
     last_to_enter[ l ].store( i, memory_order_relaxed );
-	  atomic_thread_fence(memory_order_seq_cst);
+    atomic_thread_fence(memory_order_seq_cst);
 
     // busy wait
     while ( last_to_enter[ l ].load( memory_order_relaxed ) == i
@@ -54,11 +55,10 @@ void* threadA(void *arg) {
   // release the lock now
   level[ i ].store( -1, memory_order_relaxed );
 
-	return NULL;
+  return NULL;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   int n = atoi(argv[1]);
   num_threads = n;
   pthread_t A[ n ];

@@ -3,17 +3,18 @@
 #include <cstdlib>
 #include "pthread.h"
 
+using namespace std;
+
 
 #define N 1000000
 
-using namespace std;
 
 int num_threads; // < N
-atomic<int> b[N+1];
 atomic<int> x, y;
+atomic<bool> b[N+1];
 
 void* func(void *arg) {
-long int i = (long int) arg;
+  long int i = (long int) arg;
 
   while(true){
     b[i].store(true,memory_order_relaxed);
@@ -30,15 +31,14 @@ long int i = (long int) arg;
       if(a != i) {
         b[i].store(false,memory_order_relaxed); 
         for(int j=1;j<=num_threads; j++){
-          while( b[j].load(memory_order_acquire) ) { }
+          while( b[j].load(memory_order_acquire) != false ) { }
         }
-        if(y.load(memory_order_relaxed)!=i){
-          while(y.load(memory_order_acquire)!=0) { }
-        } else {
-          break;
+        if(y.load(memory_order_relaxed)==i){
+          break; // goto critical section
         }
+        while(y.load(memory_order_acquire)!=0) { }
       } else {
-        break;
+        break; // goto critical section
       }
     }
   }
@@ -58,9 +58,13 @@ int main(int argc, char **argv) {
   int n = atoi(argv[1]);
   num_threads = n;
 
-	pthread_t A[n+1];
+  pthread_t A[n+1];
   x = 0;
   y = 0;
+
+  for(long int i=1;i<=n;i++){
+    b[ i ] = false;
+  }
 
   for(long int i=1;i<=n;i++){
     pthread_create( &A[i], NULL, func, (void *) i );

@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 // our global lock
 atomic<bool> x;
 
